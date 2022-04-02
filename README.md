@@ -1,4 +1,4 @@
-# Virtualmind ReactJs Test
+# Virtualmind Tests
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/e92f3e37-621c-4adc-aee6-7d7b67634411/deploy-status)](https://app.netlify.com/sites/virtualmind/deploys)
 
@@ -194,20 +194,15 @@ ReactDOM.render(
 );
 ```
 
-### Deploy
+### Install
+  - Run npm install
 
-https://virtualmind.netlify.app/
-
-### Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Runing deployed on-line
+  Open [https://virtualmind.netlify.app](https://virtualmind.netlify.app) to view it in your browser.
 
 ### Available Script
-
-In the project directory, you can run:
+  In the project directory, you can run:
 
 #### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
+  Runs the app in the development mode.\
+  Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
