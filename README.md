@@ -1,6 +1,6 @@
 # Virtualmind Tests
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/e92f3e37-621c-4adc-aee6-7d7b67634411/deploy-status)](https://app.netlify.com/sites/virtualmind/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/e92f3e37-621c-4adc-aee6-7d7b67634411/deploy-status)](https://app.netlify.com/sites/virtualmind/deploys){:target="_blank"}
 
 ## Exercises A.1 and A.2
 * File: answer_a.js
@@ -115,7 +115,7 @@ finalsItems = [
 ]
 ```
 
-- // You will need to define your own way to consistently transform `network` into `displayNames`
+- You will need to define your own way to consistently transform `network` into `displayNames`
 
 
 
@@ -198,11 +198,11 @@ ReactDOM.render(
   - Run npm install
 
 ### Runing deployed on-line
-  Open [https://virtualmind.netlify.app](https://virtualmind.netlify.app) to view it in your browser.
+  Open [https://virtualmind.netlify.app](https://virtualmind.netlify.app){:target="_blank"} to view it in your browser.
 
 ### Available Script
   In the project directory, you can run:
 
 #### `npm start`
   Runs the app in the development mode.\
-  Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+  Open [http://localhost:3000](http://localhost:3000){:target="_blank"} to view it in your browser.
