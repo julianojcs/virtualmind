@@ -1,4 +1,4 @@
-# Virtualmind ?ReactJs Test
+# Virtualmind ReactJs Test
 
 This is a react component that is technically functional, but would be very hard to maintain because of it's size.
 
