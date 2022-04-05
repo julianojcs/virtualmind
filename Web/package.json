@@ -4,6 +4,7 @@
   "author": "Juliano Costa Silva",
   "private": true,
   "dependencies": {
+    "axios": "^0.26.1",
     "jquery": "^3.6.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
