@@ -1,3 +1,4 @@
+const fs = require('fs')
 const questions = [
   {
     order: 'D',
@@ -15,7 +16,7 @@ const questions = [
     ],
     textQuestion: null,
     answerIndexes: [],
-    textAnswer: ''
+    textAnswer: null
   },
   {
     order: 'E',
@@ -30,7 +31,7 @@ const questions = [
     ],
     textQuestion: null,
     answerIndexes: [],
-    textAnswer: ''
+    textAnswer: null
   },
   {
     order: 'F',
@@ -39,7 +40,7 @@ const questions = [
     choices: ['Yes', 'No'],
     textQuestion: 'Briefly describe why:',
     answerIndexes: [],
-    textAnswer: ''
+    textAnswer: null
   },
   {
     order: 'G',
@@ -54,7 +55,7 @@ const questions = [
     ],
     textQuestion: null,
     answerIndexes: [],
-    textAnswer: ''
+    textAnswer: null
   },
   {
     order: 'H',
@@ -68,7 +69,7 @@ const questions = [
     ],
     textQuestion: null,
     answerIndexes: [],
-    textAnswer: ''
+    textAnswer: null
   }
 ]
 const answers = [
@@ -95,7 +96,6 @@ const answers = [
     answerIndexes: [0, 1]
   }
 ]
-
 const getQuestions = async (req, res) => {
   return new Promise((resolve) =>
     setTimeout(() => {
@@ -137,9 +137,28 @@ const getAnswer = async (req, res) => {
   )
 }
 
+const getQuestionCode = async (req, res) => {
+  const file = `./src/SourceCode/${req.params.file?.toLowerCase()}`
+  return new Promise((resolve) =>
+    setTimeout(() => {
+      if (file) {
+        try {
+          fs.accessSync(file, fs.constants.R_OK)
+          const data = fs.readFileSync(file, 'utf8')
+          resolve(res.status(200).json(data))
+        } catch (error) {
+          resolve(res.status(404).json({ error }))
+        }
+      } else
+        resolve(res.status(404).json({ error: 'Question Code not found!' }))
+    }, 1000)
+  )
+}
+
 module.exports = {
   getQuestions,
   getAnswers,
   getQuestion,
-  getAnswer
+  getAnswer,
+  getQuestionCode
 }
