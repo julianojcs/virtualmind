@@ -1,13 +1,15 @@
+import * as Styled from './Styled'
+
 const Checkbox = ({ choice, order, index, checked }) => {
   return (
-    <p>
+    <Styled.Wrapper>
       <input
         id={`checkbox${order}${index}`}
         type='checkbox'
         checked={checked}
       />
-      <label htmlFor={`checkbox${order}${index}`}>{choice}</label>
-    </p>
+      <Styled.Label htmlFor={`checkbox${order}${index}`}>{choice}</Styled.Label>
+    </Styled.Wrapper>
   )
 }
 

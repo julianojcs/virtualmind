@@ -1,25 +1,111 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import useFetch from './Hooks/useFetch'
-import { QUESTIONS_GET } from './Api'
+import { QUESTIONS_GET, ANSWERS_GET } from './Api'
 import Error from './Helper/Error'
 import Question from './Components/Question'
+import Spinner from './Components/Spinner'
+import { CodeBlock, dracula } from 'react-code-blocks'
+import { sourceCodeQA, sourceCodeA } from './SourceCode/index'
 
 const App = () => {
-  const { data: questions, loading, error, request } = useFetch()
+  const { data, loading, error, request } = useFetch()
+  const {
+    data: answers,
+    loading: loadingAnswers,
+    request: requestAnswers
+  } = useFetch()
+  const [questions, setQuestions] = useState([])
+
+  const getAnswers = () => {
+    const { url, options } = ANSWERS_GET()
+    requestAnswers(url, options)
+  }
 
   useEffect(() => {
     const { url, options } = QUESTIONS_GET()
     request(url, options)
   }, [request])
 
+  useEffect(() => {
+    setQuestions(data)
+    return () => {
+      setQuestions([])
+    }
+  }, [data])
+
+  useEffect(() => {
+    setQuestions((prev) =>
+      prev?.map((item) => {
+        const answer = answers.find(
+          (answer) => item.order.toLowerCase() === answer.order.toLowerCase()
+        )
+        return {
+          ...item,
+          answerIndexes: answer.answerIndexes,
+          textAnswer: answer.textAnswer
+        }
+      })
+    )
+  }, [answers])
+
   if (error) return <Error error={error} />
-  if (loading) return <div>Loading...</div>
+  if (loading) return <Spinner />
   if (questions) {
     return (
-      <div>
-        {questions.map((question) => (
-          <Question key={question.order} question={question} />
+      <div className='container'>
+        <img className='logo' src='/virtualmind.png' alt='Virtualmind' />
+        <p className='title'>Javascript</p>
+        <p className='paragraph question'>
+          A. The following code suffers from a known condition called “Pyramid
+          of Doom”: If we were to chain more server calls together, then the{' '}
+          <code>PlayerDetailsController.showTeammatesClick</code> method would
+          go too deep and become very unstable. This doesn’t allow for a good
+          way to handle error, or application state, if we were to react to each
+          call in particular.
+        </p>
+        <p className='paragraph'>
+          Tip: Check what $.ajax returns and its supported methods/hooks
+        </p>
+        <CodeBlock
+          text={sourceCodeQA}
+          language='javascript'
+          showLinesNumbers={true}
+          them={dracula}
+        />
+        <p className='paragraph'>
+          Refactor the code to use promises. Some Acceptance Criteria on the new
+          code:
+        </p>
+        <ul>
+          <li>Keep the object definitions the same as in the example.</li>
+          <li>
+            Keep the function signatures and interfaces exactly as they are,
+            except for getPlayerTeamId and getPlayers, which should not expect
+            the callback parameter.
+          </li>
+          <li>Do not use callback functions in any way</li>
+          <li>
+            If showTeammatesClick is called, then the playerList must be
+            rendered at some point, assuming that we have a stable communication
+            with the server
+          </li>
+        </ul>
+        <p className='paragraph question'>
+          A.2) Extra points for doing A) with async/await (Please paste below
+          links to your answers)
+        </p>
+        <CodeBlock
+          text={sourceCodeA}
+          language='javascript'
+          showLinesNumbers={true}
+          them={dracula}
+        />
+        {questions.map((question, index) => (
+          <Question key={question.order} question={question} index={index} />
         ))}
+        <button className='command_button' onClick={() => getAnswers()}>
+          {loadingAnswers ? 'Loading...' : 'Get Answers'}
+        </button>
       </div>
     )
   } else return null
