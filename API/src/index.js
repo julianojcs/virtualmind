@@ -7,6 +7,6 @@ server.use(cors());
 server.use(express.json());
 server.use('/', ExercisesRoutes);
 
-server.listen(3333, () => {
-  console.log('API ONLINE');
-});
+server.listen(process.env.PORT || 3333, () => {
+  console.log('API ONLINE')
+})
