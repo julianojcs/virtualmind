@@ -61,19 +61,6 @@ input {
   font-family: var(--type-first);
   color: var(--clr-darkgray);
 }
-
-a {
-  text-decoration: none;
-}
-
-a:link,
-a:hover,
-a:focus,
-a:active,
-a:visited {
-  color: inherit;
-}
-
 .error_message {
   color: #f44336;
   margin: 0;
@@ -148,6 +135,18 @@ a:visited {
 
 .question {
   font-weight: bold;
+}
+
+.mb1rem {
+  margin-bottom: 1rem;
+}
+
+.mt1rem {
+  margin-top: 1rem;
+}
+
+.color_red {
+  color: var(--clr-primary);
 }
 
 ul {

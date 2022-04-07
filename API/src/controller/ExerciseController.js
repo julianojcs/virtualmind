@@ -83,7 +83,7 @@ const answers = [
   },
   {
     order: 'F',
-    answerIndexes: [1],
+    answerIndexes: [0],
     textAnswer:
       'JavaScript can function as a procedural and an object oriented language. Javascript provides some features to implement object-oriented programs, such as polymorphism, encapsulation, inheritance (via prototyping), so it is a prototype-based language (not a class-based object-oriented). However, a language can be OO if it supports object even without classes. So, Javascript could be considered OOP language.'
   },
@@ -96,10 +96,59 @@ const answers = [
     answerIndexes: [0, 1]
   }
 ]
+
+const getFileQuestion = ({ result = [], filename, order }) => {
+  const source = `./src/SourceCode/${filename}`
+  try {
+    fs.accessSync(source, fs.constants.R_OK)
+    const data = fs.readFileSync(source, 'utf8')
+    return [
+      ...result,
+      {
+        order: order,
+        type: 'text',
+        data,
+        textAnswer: null
+      }
+    ]
+  } catch (error) {
+    throw error
+  }
+}
+const getFileAnswer = ({ result = [], filename, order }) => {
+  const source = `./src/SourceCode/${filename}`
+  try {
+    fs.accessSync(source, fs.constants.R_OK)
+    const data = fs.readFileSync(source, 'utf8')
+    return [
+      ...result,
+      {
+        order: order,
+        textAnswer: data
+      }
+    ]
+  } catch (error) {
+    throw error
+  }
+}
+
 const getQuestions = async (req, res) => {
+  let result = []
   return new Promise((resolve) =>
     setTimeout(() => {
-      resolve(res.status(200).json(questions))
+      try {
+        result = [...getFileQuestion({ filename: 'question_a.js', order: 'A' })]
+        result = [
+          ...getFileQuestion({ result, filename: 'question_b.js', order: 'B' })
+        ]
+        result = [
+          ...getFileQuestion({ result, filename: 'question_c.js', order: 'C' })
+        ]
+      } catch (error) {
+        resolve(res.status(404).json({ error }))
+      }
+      result = [...result, ...questions]
+      resolve(res.status(200).json(result))
     }, 1000)
   )
 }
@@ -118,9 +167,22 @@ const getQuestion = async (req, res) => {
 }
 
 const getAnswers = async (req, res) => {
+  let result = []
   return new Promise((resolve) =>
     setTimeout(() => {
-      resolve(res.status(200).json(answers))
+      try {
+        result = [...getFileAnswer({ filename: 'answer_a.js', order: 'A' })]
+        result = [
+          ...getFileAnswer({ result, filename: 'answer_b.js', order: 'B' })
+        ]
+        result = [
+          ...getFileAnswer({ result, filename: 'answer_c.js', order: 'C' })
+        ]
+      } catch (error) {
+        resolve(res.status(404).json({ error }))
+      }
+      result = [...result, ...answers]
+      resolve(res.status(200).json(result))
     }, 1000)
   )
 }

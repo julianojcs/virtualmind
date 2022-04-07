@@ -5,7 +5,6 @@ import Error from './Helper/Error'
 import Question from './Components/Question'
 import Spinner from './Components/Spinner'
 import { CodeBlock, dracula } from 'react-code-blocks'
-import { sourceCodeQA, sourceCodeA } from './SourceCode/index'
 
 const App = () => {
   const { data, loading, error, request } = useFetch()
@@ -15,10 +14,17 @@ const App = () => {
     request: requestAnswers
   } = useFetch()
   const [questions, setQuestions] = useState([])
-
   const getAnswers = () => {
     const { url, options } = ANSWERS_GET()
     requestAnswers(url, options)
+  }
+  const customStyle = {
+    fontFamily: 'Fira Code',
+    // height: '500px',
+    // overflowY: 'scroll',
+    borderRadius: '5px',
+    boxShadow: '1px 2px 3px rgba(0,0,0,0.35)',
+    marginBottom: '1rem'
   }
 
   useEffect(() => {
@@ -41,8 +47,8 @@ const App = () => {
         )
         return {
           ...item,
-          answerIndexes: answer.answerIndexes,
-          textAnswer: answer.textAnswer
+          answerIndexes: answer?.answerIndexes || null,
+          textAnswer: answer?.textAnswer || null
         }
       })
     )
@@ -50,10 +56,13 @@ const App = () => {
 
   if (error) return <Error error={error} />
   if (loading) return <Spinner />
-  if (questions) {
+  if (questions && questions.length > 0) {
     return (
       <div className='container'>
         <img className='logo' src='/virtualmind.png' alt='Virtualmind' />
+        <button className='command_button' onClick={() => getAnswers()}>
+          {loadingAnswers ? 'Loading...' : 'Get Answers'}
+        </button>
         <p className='title'>Javascript</p>
         <p className='paragraph question'>
           A. The following code suffers from a known condition called “Pyramid
@@ -67,10 +76,11 @@ const App = () => {
           Tip: Check what $.ajax returns and its supported methods/hooks
         </p>
         <CodeBlock
-          text={sourceCodeQA}
+          text={questions[0]?.data}
           language='javascript'
           showLinesNumbers={true}
-          them={dracula}
+          wrapLines
+          customStyle={customStyle}
         />
         <p className='paragraph'>
           Refactor the code to use promises. Some Acceptance Criteria on the new
@@ -90,22 +100,94 @@ const App = () => {
             with the server
           </li>
         </ul>
+        <div className='paragraph question'>
+          <div>A.2) Extra points for doing A) with async/await</div>
+          <div>(Please paste below links to your answers)</div>
+        </div>
+        {questions[0].textAnswer && (
+          <>
+            <p className='paragraph question color_red'>
+              Answer for question A.1 and A.2:
+            </p>
+            <CodeBlock
+              text={questions[0].textAnswer || ''}
+              language='javascript'
+              showLinesNumbers={true}
+              theme={dracula}
+              customStyle={customStyle}
+            />
+          </>
+        )}
+
         <p className='paragraph question'>
-          A.2) Extra points for doing A) with async/await (Please paste below
-          links to your answers)
+          B.{' '}
+          <a
+            href='https://jsfiddle.net/2ku54eg9/'
+            target={'_blank'}
+            rel='noreferrer'
+          >
+            Collections Exercise
+          </a>
         </p>
         <CodeBlock
-          text={sourceCodeA}
+          text={questions[1]?.data}
           language='javascript'
           showLinesNumbers={true}
-          them={dracula}
+          wrapLines
+          customStyle={customStyle}
         />
-        {questions.map((question, index) => (
-          <Question key={question.order} question={question} index={index} />
-        ))}
-        <button className='command_button' onClick={() => getAnswers()}>
-          {loadingAnswers ? 'Loading...' : 'Get Answers'}
-        </button>
+        {questions[1].textAnswer && (
+          <>
+            <p className='paragraph question color_red'>
+              Answer for question B:
+            </p>
+            <CodeBlock
+              text={questions[1].textAnswer || ''}
+              language='javascript'
+              showLinesNumbers={true}
+              theme={dracula}
+              customStyle={customStyle}
+            />
+          </>
+        )}
+
+        <p className='paragraph question'>
+          C.{' '}
+          <a
+            href='https://jsfiddle.net/2ku54eg9/'
+            target={'_blank'}
+            rel='noreferrer'
+          >
+            React Refactor Exercise
+          </a>
+        </p>
+        <CodeBlock
+          text={questions[2]?.data}
+          language='javascript'
+          showLinesNumbers={true}
+          wrapLines
+          customStyle={customStyle}
+        />
+        {questions[2].textAnswer && (
+          <>
+            <p className='paragraph question color_red'>
+              Answer for question C:
+            </p>
+            <CodeBlock
+              text={questions[2].textAnswer || ''}
+              language='javascript'
+              showLinesNumbers={true}
+              theme={dracula}
+              customStyle={customStyle}
+            />
+          </>
+        )}
+
+        {questions
+          .filter((question) => question.type !== 'text')
+          .map((question, index) => (
+            <Question key={question.order} question={question} index={index} />
+          ))}
       </div>
     )
   } else return null

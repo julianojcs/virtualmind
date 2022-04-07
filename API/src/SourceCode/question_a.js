@@ -5,15 +5,15 @@ var PlayerService = {
       success: function (team) {
         callback(team.id)
       }
-    })
+    });
   },
   getPlayers: function (teamId, callback) {
     $.ajax({
       url: '/team/' + teamId + '/player',
       success: callback
-    })
+    });
   }
-}
+};
 
 var PlayerDetailsController = {
   playerId: 8,
@@ -21,7 +21,7 @@ var PlayerDetailsController = {
     PlayerService.getPlayerTeamId(this.playerId, function (teamId) {
       PlayerService.getPlayers(teamId, function (playerList) {
         // Render playerList
-      })
-    })
+      });
+    });
   }
-}
+};
