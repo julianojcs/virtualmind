@@ -8,6 +8,7 @@ const Radio = ({ choice, order, index, checked }) => {
         name={`radio${order}`}
         type='radio'
         checked={checked}
+        onChange={() => {}}
       />
       <Styled.Label htmlFor={`radio${order}${index}`}>{choice}</Styled.Label>
     </Styled.Wrapper>

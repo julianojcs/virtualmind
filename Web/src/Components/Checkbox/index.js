@@ -7,6 +7,7 @@ const Checkbox = ({ choice, order, index, checked }) => {
         id={`checkbox${order}${index}`}
         type='checkbox'
         checked={checked}
+        onChange={() => {}}
       />
       <Styled.Label htmlFor={`checkbox${order}${index}`}>{choice}</Styled.Label>
     </Styled.Wrapper>

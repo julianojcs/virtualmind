@@ -1,4 +1,5 @@
-export const baseURL = 'http://localhost:3333'
+// export const baseURL = 'http://localhost:3333'
+export const baseURL = 'https://virtualmind-api.herokuapp.com'
 
 export const QUESTIONS_GET = () => {
   return {
